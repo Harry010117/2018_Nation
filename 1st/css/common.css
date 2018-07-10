@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; }
+ul, li { list-style: none; }
+a { color: #000; text-decoration: none; }
+header {  }
+header .nav { width: 1280px; }
+header .topbar { background: #34495e; height: 40px; }
+header .top { width: 1280px; line-height: 40px; text-align: right; margin: 0 auto; }
+header .top * { color: #fff; font-size: 13px; }
+header .nav { height: 100px; display: flex; justify-content: space-between; align-items: center; margin: 0 auto; }
+header .nav .gnb { width: 550px; font-size: 17px; display: flex; justify-content: space-around; }
+header .nav li:hover { background: #09f; }
+header .nav .logo { background: url(../img/logo.png); height: 67px; width: 173px; }
