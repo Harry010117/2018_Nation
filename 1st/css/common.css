@@ -7,9 +7,8 @@ a { color: #000; text-decoration: none; }
 .subject { margin: 0 auto; width: 200px; height: 64px; display: flex; flex-wrap: wrap; justify-content: center; align-content: space-between; }
 .subject .title { font-size: 35px; }
 .subject .bar { background: #777; width: 100px; height: 1.5px; }
-.wsub .wtitle { color: #fff; font-size: 20px; }
-.wsub .wbar { background: #fff; width: 100px; height: 1.5px; }
 
+header { z-index: 100; position: fixed; top: 0; width: 100%; background: #fff; }
 header .nav { width: 1280px; }
 header .topbar { background: #34495e; height: 40px; }
 header .top { width: 1280px; line-height: 40px; text-align: right; margin: 0 auto; }
@@ -22,7 +21,7 @@ header .nav li:hover { background: #09f; }
 header .nav li:hover a { color:#fff; }
 header .nav .logo { background: url(../img/logo.png); height: 67px; width: 173px; }
 
-.slide { position: relative; overflow: hidden; }
+.slide { margin-top: 140px; position: relative; overflow: hidden; }
 .slide .slide_content { width: 1280px; height: 700px; left:50%; transform:translateX(-50%); position: absolute; }
 .slide .slide_content .slogan { position: absolute; top: 180px; left:50%; transform:translateX(-50%); width: 704px; height: 55px; background: url(../img/txt-slogan.png); }
 .slide .slide_content .arrow_pos { display: none }
@@ -102,9 +101,39 @@ header .nav .logo { background: url(../img/logo.png); height: 67px; width: 173px
 #food .wrap .block_hrz_big { width: 595px; height: 285px; }
 #food .wrap .block_hrz_big .desc { position: absolute; transition: .7s; bottom: -185px; background: rgba(0,0,0,0.5); color: #fff; width: 555px; height: 245px; }
 
+
 #ent { width: 100%; height: 670px; display: flex; }
-#ent > div { width: 33.333333%; height: 670px; }
-#ent > div:nth-child(1) { background: url(../img/nature1.jpg) no-repeat center/cover; }
+#ent > div { transition: .7s ease; width: calc(100% / 3); height: 670px; }
+#ent > div:nth-child(1) { background: url(../img/nature1.jpg) no-repeat left/cover; }
+#ent > div:nth-child(1):hover { width: calc(100% / 3 * 2); }
 #ent > div:nth-child(2) { background: url(../img/nature2.jpg) no-repeat center/cover; }
-#ent > div:nth-child(3) { background: url(../img/nature3.jpg) no-repeat center/cover; }
-#ent > div .wrap { display: flex; justify-content: center; width: 100%; height: 670px; background: rgba(0,0,0,0.3); position: absolute; }
+#ent > div:nth-child(2):hover { width: calc(100% / 3 * 2); }
+#ent > div:nth-child(3) { background: url(../img/nature3.jpg) no-repeat right/cover; }
+#ent > div:nth-child(3):hover { width: calc(100% / 3 * 2); }
+#ent > div .wrap { display: flex; justify-content: center; width: 100%; height: 670px; }
+#ent > div .wrap > div { width: 100%; display: flex; flex-flow: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); }
+.wsub .wtitle { color: #fff; font-size: 35px; }
+.wsub .wbar { background: #fff; margin-top: 10px; width: 125px; height: 1.5px; }
+
+
+#review { height: 950px; display: flex; flex-flow: column wrap; justify-content: space-around; }
+#review .wrap { height: 700px; display: flex; flex-flow: column wrap; justify-content: space-around; align-items: center; }
+#review .rev_box { display: flex; width: 1280px; height: 200px; justify-content: space-between; }
+#review .rev_box .content { width: 940px; }
+#review .rev_box .content p:nth-child(1) { color:#113184; font-size: 20px; }
+#review .rev_box .content p:nth-child(2) { margin-top: 10px; font-size: 18px; }
+#review .rev_box .content p:nth-child(3) { margin-top: 10px; font-size: 18px; }
+#review .rev_box .content p:nth-child(4) { margin-top: 10px; line-height: 25px; font-size: 14px; }
+#review .rev_box .image { display: flex; position: relative; }
+#review .rev_box .image:hover .more_img:nth-child(3) { margin-left: 0px; }
+#review .rev_box .image:hover .more_img:nth-child(2) { margin-left: 300px; }
+#review .rev_box .image:hover .more_img:nth-child(1) { margin-left: 600px; }
+#review .rev_box .more_img { transition: .7s; position: absolute; width: 300px; height: 200px; }
+#review .rev_box:nth-child(1) .more_img { background: url(../img/thumb1.jpg); }
+#review .rev_box:nth-child(2) .more_img { background: url(../img/thumb2.jpg); }
+#review .rev_box:nth-child(3) .more_img { background: url(../img/thumb3.jpg); }
+
+
+footer { display: flex; width: 1280px; margin: 0 auto; justify-content: space-between; }
+footer span { font-weight: bold; }
+.logo_gray { width: 173px; height: 67px; background: url(../img/logo-grey.png); }
