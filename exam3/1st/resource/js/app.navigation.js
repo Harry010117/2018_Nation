@@ -8,6 +8,7 @@ class Navigation {
 	static init () {
 
 		// jQuery selector minimization
+		const url = new URL(location.href) || null
 		Navigation.main    = $('.main')
 		Navigation.sub     = $('.sub')
 		Navigation.page    = $('.page')
