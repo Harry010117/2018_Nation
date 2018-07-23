@@ -14,9 +14,9 @@ class Path {
 			[19	,	2	,	30	,	27	,	23	,	76	,	54	,	0	,	79	,	71	],	// 이순신대교
 			[64	,	95	,	12	,	39	,	21	,	99	,	66	,	27	,	0	,	11	],	// 거문도/백도
 			[51	,	42	,	3	,	92	,	44	,	98	,	60	,	7	,	7	,	0	], 	// 영취산 진달래
-			]
-			Path.createTimeTable()
-			Path.createPathTemplate()
+		]
+		Path.createTimeTable()
+		Path.createPathTemplate()
 		/* example
 			0 => 1 : 11	 |	0 => 1 => 2 : 11 + 27 	= 38
 			0 => 2 : 37	 |	0 => 2 => 1 : 37 + 38	= 65
@@ -25,20 +25,20 @@ class Path {
 			2 => 0 : 87	 |	2 => 0 => 1 : 87 + 11	= 98
 			2 => 1 : 34	 |	2 => 1 => 0 : 34 + 11	= 45
 			shortest : 0 => 1 => 2 : 38
-			*/
-		}
+		*/
+	}
 
 	// craete template
 	static createTimeTable () {
 		const label    = Path.lbl
 		const arr      = Path.normal
 		const styletxt = `
-		<style>
-		.timeTableView{font-size:11px}
-		.timeTableView table{width:100%}
-		.timeTableView td,
-		.timeTableView th{width:9%;border:1px solid #ddd;}
-		</style>
+			<style>
+				.timeTableView{font-size:11px}
+				.timeTableView table{width:100%}
+				.timeTableView td,
+				.timeTableView th{width:9%;border:1px solid #ddd;}
+			</style>
 		`
 		let   text     = '<table><thead><tr><th>-</th>'
 		for (let i = 0; i < 10; i++)
@@ -58,100 +58,65 @@ class Path {
 	// createPathTemplate
 	static createPathTemplate () {
 		Path.template = `
-		<div class="path-wrap">
-		<div class="line">
-		<span class="lbl">최단 경로 :</span>
-		<p class="desc">{{path}}</p>
-		</div>
-		<div class="line">
-		<span class="lbl">소요 시간 :</span>
-		<p class="desc">{{cost}} 분</p>
-		</div>
-		</div>
+			<div class="path-wrap">
+				<div class="line">
+					<span class="lbl">최단 경로 :</span>
+					<p class="desc">{{path}}</p>
+				</div>
+				<div class="line">
+					<span class="lbl">소요 시간 :</span>
+					<p class="desc">{{cost}} 분</p>
+				</div>
+			</div>
 		`
 	}
 
-	static shortPathTree (start, arr, step, p) { 
-		delete arr[start]
-		if (p.length === arr.length) {
-			Path.pathList.push(p)
+	static shortPathTree (start, step, p, min){
+		if (Path.min <= min) 
+			return
+		if (step === Path.arr.length) {
+			if (min < Path.min) {
+				Path.min = min
+				Path.pathList = p
+			}
 			return
 		}
-		arr.forEach( (val, idx) => {
+		Path.arr.forEach((val,idx) => {
+			if (p.indexOf(idx) != -1) 
+				return
 			let new_p = p.slice()
-			new_p.push(idx)
-			Path.shortPathTree(idx,arr.slice(), step+1, new_p)
-		});
-	}
-
-	static reDefine (arr,len) {
-		let newArr = []
-		for (let i = 0; i < len ; i++) {
-			const parent = Path.normal[arr[i]]
-			let child = []
-			for (let j = 0; j < len ; j++) {
-				child.push(parent[arr[j]])
-				newArr.push(child)
-			}
-			return newArr
-		}
+			const cost = Path.normal[Path.arr[start]][Path.arr[idx]]
+			Path.shortPathTree(idx, step+1, new_p, min + cost)
+		})
 	}
 
 	static allShortPath (arr) {
 		Path.pathList = []
+		Path.min = 10000
+		Path.arr = arr
 		let len = arr.length
-		let selected = Path.reDefine(arr,len)
-		let min = [-1,10000]
-		for (let i = 0; i < len ; i++) {
-			Path.shortPathTree(i,selected.slice(), 1, [i])
-		}
-		const list = Path.pathList;
-		for (let i = 0, pathLen = list.length; i < pathLen ; i++) {
-			let costSum = 0
-			let costList = []
-			for (let j = 0; j < len - 1 ; j++) {
-				const cost = selected[list[i][j]][list[i][j+1]]
-				costSum += cost
-				costList.push(cost)
-			}
-			if (min[1] > costSum) min = [i,costSum, costList]
-		}
-	return [list[min[0]], min[1], min[2]
-}
 
-static Shortest () {
-	let arr = []
-	let label = []
-	this.path.forEach( element => {
-		if (ele.checked) {
-			arr.push(ele.value)
-			label.push(Paht.lbl[ele.value])
+		for (let i = 0; i < len; i++) {
+			Path.shortPathTree(i, i, [i], 0)
 		}
-	});
-	if (arr.length < 2) {
-		alert('2개 이상의 관광지를 선택해주세요.')
-		return false
 	}
-	const info = Path.allShortPath(arr)
-	const pathString = (function () {
-		let str = ""
-		info[0].forEach((ele, idx) => {
-			if (idx>0) {
-				str += `<i class "fas fa-long-arrow-alt-right"></i><span class="cost">${info[2][idx-1]}분</span>`
-			}
-			str += label[ele]
-		});
-		return str
-	})
-	const template = Path.template
-	.replace("{{path}}", pathString)
-	.replace("{{cost}}", info[1])
-	$('.shortest-path').html(template)
-	return false
-}
 
-static timeTableView () { 
-	Layer.realOpen(Path.timeTable)
-	return false
-}
+	static Shortest () {
+		let arr = []
+		this.path.forEach(ele => {
+			if (ele.checked) arr.push(ele.value)
+		})
+		const len = arr.length
+		if (arr.length < 2) {
+			alert('2개 이상의 관광지를 선택해주세요')
+			return false
+		}
+		Path.allShortPath(arr)
+		const pathString = (function () {
+			let str = Path.lbl[Path.arr[Path.pathList[0]]]
+			for (let i = 0; i < len; i++) {
+				str += `<i class="fas fa-long-arrow0-alt-right"></i> <span class="cost">${Path.normal[Path.arr[Path.pathList[i-1]]][Path.arr[Path.pathList[i]]]}</span>`
+			}
+		})
+	}
 }
